@@ -128,6 +128,10 @@ public final class ShadowAssetManager {
     //Style style = resolveStyle(resourceLoader, defStyleResName, getQualifiers());
     if (themeStyle != null) {
       Attribute attrValue = themeStyle.getAttrValue(resName);
+      while(resolveRefs && attrValue != null && attrValue.isStyleReference()) {
+        ResName attrResName = new ResName(attrValue.contextPackageName, "attr", attrValue.value.substring(1));
+        attrValue = themeStyle.getAttrValue(attrResName);
+      }
       if (attrValue == null) {
         System.out.println("Couldn't find " + resName + " in " + themeStyleName);
       } else {
